@@ -1,0 +1,20 @@
+ {%raw%} {% extends "app.html" %}
+{% block content %}{%endraw%}
+<turbo-frame  id="{{module}}">
+  <a href="/{{module}}/new" data-turbo-frame="navigation" >New</a>
+   <table>
+    {%raw%}{% for e in ctx %}{%endraw%}
+    <tr> 
+      {% for f in fields %}
+      <td>{%raw%}{{ {%endraw%} e.{{f.name}} {%raw%}}}{%endraw%} </td>
+      {% endfor %}
+
+      <td> <a  href="/{{module}}/{% raw %}{{ e.id }}{% endraw %}"  >show</a> </td>
+      <td> <a   href="/{{module}}/{% raw %}{{ e.id }}{% endraw %}/edit" >edit</a>  </td>
+      <td> <a   href="/{{module}}/{% raw %}{{ e.id }}{% endraw %}"   data-turbo-method="delete">delete</a> </td>
+    </tr>
+    {%raw%}{% endfor %}{%endraw%}
+  </table>
+  
+  </turbo-frame>
+ {%raw%} {% endblock %}{%endraw%}

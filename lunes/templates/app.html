@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+  {% raw %}  <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    {% endraw %}
+  </head>
+  <body>
+    
+    <h1>app</h1>
+
+   
+    <div id="content">{% raw %}{% block content %}{% endblock %}{% endraw %}</div>  
+     
+</body>
+{% raw %}
+<script type="module" >import * as Turbo from "https://cdn.skypack.dev/@hotwired/turbo" ;   Turbo.connectStreamSource(new WebSocket('ws://'+location.host));</script>
+{% endraw %}
+</html>
+

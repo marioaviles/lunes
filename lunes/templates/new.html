@@ -1,0 +1,12 @@
+<turbo-frame id="{{module}}"  >
+  <h1>new</h1>
+
+<form method="POST" 
+action="/{{module}}" >
+   {% for f in fields %}
+   <input type="{{f.type}}" name="{{f.name}}"><br>
+   {% endfor %}
+    <button type="submit" > Save</button>
+  </form>
+
+</turbo-frame >

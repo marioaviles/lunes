@@ -1,0 +1,8 @@
+<turbo-frame id="{{module}}" >
+
+  {% for f in fields %}
+  <p><b>{{f.name}}</b>{%raw%}{{{%endraw%}ctx.{{f.name}}{%raw%}}}{%endraw%}</p>
+  {% endfor %}
+
+  <a href="/{{module}}" target="_top">back</a>
+</turbo-frame>

@@ -1,0 +1,13 @@
+<turbo-frame id="{{module}}" >
+    <form method="POST" 
+          action="/{{module}}/{%raw%}{{ ctx.id }}{%endraw%}" >
+          {% for f in fields  %}
+          <input type="{{f.type}}" name="{{f.name}}" value="{%raw%}{{{%endraw%}ctx.{{f.name}}{%raw%}}}{%endraw%}" class="edit" >
+          {% endfor %}
+        <button type="submit" > update </button>
+      </form>
+    </turbo-frame >   
+        
+       
+
+
