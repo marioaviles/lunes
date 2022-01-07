@@ -13,12 +13,14 @@ $ pip install .
 
 ##CRUD sample application
 
-
+$ lunes c miapp && cd miapp 
 $ lunes g bread name price:int  
 
-Add your new module to your app.py and then run it as usual:
+Then run it as usual:
 
 $ flask run 
+
+You can see your new crud at localhost:5000/bread
 
 
 

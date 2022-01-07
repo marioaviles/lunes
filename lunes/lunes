@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # generador de plantillas
 from jinja2 import Environment, FileSystemLoader
 import os
@@ -11,39 +11,44 @@ file_loader = FileSystemLoader(DATA_PATH)
 #file_loader = FileSystemLoader('templates')
 env = Environment(loader=file_loader)
 
-def template_generator(template_name, model_name, fields,all_fields_names,new_file=None):
-    prefolder = ''
-    if (template_name.endswith('html')):
-        if model_name != '':
-            prefolder = 'templates/'+ model_name+'/'
-        else:
-            prefolder = 'templates/'
+def template_creator(template_name, pathname,module=None, fields=[],all_fields_names=[]):
     template = env.get_template(template_name)
-    rendered = template.render(model=model_name.capitalize(),module=model_name,fields= fields ,all_fields_names=all_fields_names)
-    save_file(prefolder, template_name, rendered,new_file)
+    content= template.render(module=module,fields= fields,
+            all_fields_names=all_fields_names)
+    save_file(pathname,  content)
 
-def generate_crud_templates(model_name,fields,all_fields_names ):
-    #returns the html template
-    template_generator('new.html',model_name,fields,all_fields_names)
-    template_generator('edit.html',model_name,fields,all_fields_names)
-    template_generator('show.html',model_name,fields,all_fields_names)
-    template_generator('index.html',model_name,fields,all_fields_names)
-    template_generator('app.html','',fields,all_fields_names)
-    template_generator('controller.py',model_name,fields,all_fields_names,new_file=model_name+'.py')
-    template_generator('app.py',model_name,fields,all_fields_names)
-    
+def generate_new_project(proyect_name):
+    """ creates new app directory """
+    Path(proyect_name+'/templates').mkdir(parents=True, exist_ok=True)
+    template_creator('app.html',proyect_name+'/templates/app.html')
+    template_creator('app.py',proyect_name+'/app.py')
 
-def save_file(folder,filename, content, new_file=None):
-    """Saves `model` to `model_path`"""
+def generate_crud_templates(module,fields,all_fields_names ):
+    crud_templates = ['new.html','edit.html','show.html','index.html']
+    for tlp in crud_templates:
+        template_creator(tlp,'templates/'+module+'/'+tlp,module,fields,all_fields_names)
+    template_creator('controller.py',module+'.py',module,fields,all_fields_names)
+    append_to_file('app.py', 'import '+module+'\n')
+
+def save_file(path, content):
+    """saves a file """
     content = str.encode(content)
-    if folder != '':
-        Path(folder).mkdir(parents=True, exist_ok=True)
-    if new_file:
-       filename = new_file 
-    with open(folder+filename, 'wb') as file:
+    folder = Path(path).parent
+    Path(folder).mkdir(parents=True, exist_ok=True)
+    with open(path, 'wb') as file:
         file.write(content)
 
-def g(model:str , *args):
+def append_to_file(filepath, content):
+    with open(filepath, 'a') as file:
+        file.write(content)
+
+def c(proyect_name):
+    """ creates a new app directory 
+    :param proyect name 
+    """
+    generate_new_project(proyect_name)
+
+def g(module , *args):
     """ creates scaffold for crud operations 
     :param module name 
     :param fields fieldname:(str|int)
@@ -63,9 +68,10 @@ def g(model:str , *args):
             f = {'name':i,'type':'text'}
         all_fields_names += "'"+f['name']+"',"
         fields.append(f)
-    generate_crud_templates(model, fields,all_fields_names[:-1])
+    generate_crud_templates(module, fields,all_fields_names[:-1])
 
 if __name__ == "__main__":
     fire.Fire({
-        "g":g,
+        "c":c,
+        "g":g
     })

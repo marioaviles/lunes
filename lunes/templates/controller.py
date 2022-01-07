@@ -3,7 +3,7 @@ from flask import abort
 from app import r
 import uuid
 
-class {{model}}(Model):
+class {{ module.capitalize() }}(Model):
     permit =[{{all_fields_names}}]
     def __init__(self, params):
         self.id = uuid.uuid4().hex
@@ -27,7 +27,7 @@ def {{module}}_new():
 
 @r.render('/{{module}}', methods=['POST']) #create
 def {{module}}_create():
-    {{module}}= {{model}}( params)
+    {{module}}= {{ module.capitalize() }}( params)
     {{module}}_repository.append({{module}})
     return {{module}} 
 
